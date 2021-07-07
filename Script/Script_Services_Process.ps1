@@ -48,7 +48,7 @@ function vitesse_cpu{
 function lancer_tache_planifiée{
     param()
 
-    $action=New-ScheduledTaskAction -Execute "powershell.exe" -Argument "Script_Services_Process.ps1"
+    $action=New-ScheduledTaskAction -Execute "powershell.exe" -Argument "dashboard.ps1"
     $trigger= New-ScheduledTaskTrigger -Once -At (Get-Date) -RepetitionInterval (New-TimeSpan -Minutes 1)
     Register-ScheduledTask -Action $action -Trigger $trigger -TaskName "Script task monitoring" -Description "lance toutes les 3 minutes le script de monitoring"
     Start-ScheduledTask "Script task monitoring"  
