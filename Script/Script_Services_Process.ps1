@@ -44,3 +44,18 @@ function vitesse_cpu{
     return (Get-WmiObject win32_processor | select -First 1 -Property name, currentclockspeed, maxclockspeed | Format-List)
 }
 
+#modifier l'argument et mettre le script final
+function lancer_tache_planifiée{
+    param()
+
+    $action=New-ScheduledTaskAction -Execute "powershell.exe" -Argument "Script_Services_Process.ps1"
+    $trigger= New-ScheduledTaskTrigger -Once -At (Get-Date) -RepetitionInterval (New-TimeSpan -Minutes 3)
+    Register-ScheduledTask -Action $action -Trigger $trigger -TaskName "Script task monitoring" -Description "lance toutes les 3 minutes le script de monitoring"
+    Start-ScheduledTask "Script task monitoring"  
+}
+
+function supprimer_tache_planifiée{
+    param()
+    Unregister-ScheduledTask "Script task monitoring"
+}
+
